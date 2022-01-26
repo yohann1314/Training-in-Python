@@ -1,0 +1,181 @@
+from tkinter import *
+import os
+
+login_entry = "global"
+loginpass_entry = "global"
+inscription_entry = "global"
+PassInscription_entry = "global"
+enter_revenu = "global"
+enter_depense = "global"
+
+
+
+
+
+# fenetre budget
+def window_budget_open():
+    window_budget = Tk()
+    window_budget.title("Gestion de Budget")
+    window_budget.config(bg='#BDB8B4')
+    window_budget.geometry("600x600")
+
+    label = Label(window_budget, text="GESTION DE BUDGET", bg='#BDB8B4', font=("Hevica", 30))
+    label.pack()
+
+    frame = Frame(window_budget, bg='#BDB8B4')
+
+    left_frame = Frame(frame, bg='#BDB8B4')
+
+    label_title1 = Label(window_budget, text="Votre solde est de :", font=("Hevica", 20), bg='#BDB8B4')
+    label_title1.pack(side=TOP, pady=20)
+
+    label_title_depense = Label(left_frame, text="DEPENSE", font=("Hevica", 15), bg='#BDB8B4')
+    label_title_depense.pack()
+
+    global enter_depense
+    enter_depense = Entry(left_frame, text="Depense", font=("Hevica", 15), bg='#BDB8B4', fg='black')
+    enter_depense.pack()
+
+    button_depense = Button(left_frame, text="CALCULER VOTRE SOLDE", font=("Hevica", 15), bg='#BDB8B4', fg='white',
+                            command=solde)
+    button_depense.pack(pady=20)
+
+    label_titledepense = Label(left_frame, text="REVENU", font=("Hevica", 15), bg='#BDB8B4')
+    label_titledepense.pack()
+
+    global enter_revenu
+    enter_revenu = Entry(left_frame, text="REVENU", font=("Hevica", 15), bg='#BDB8B4')
+    enter_revenu.pack()
+
+    button_revenu = Button(left_frame, text="CALCULER VOTRE SOLDE", font=("Hevica", 15), bg='#BDB8B4', fg='white',
+                           command=solde)
+    button_revenu.pack(pady=20)
+    left_frame.grid(row=0, column=1, sticky=W)
+
+    frame.pack(expand=YES)
+    window_budget.mainloop()
+
+
+def inscription_code():
+    nom_inscription = inscription_entry.get()
+    pass_inscription = PassInscription_entry.get()
+    File_inscription_name = os.listdir()
+    if str(nom_inscription) + ".txt" in File_inscription_name:
+        print("Erreur 3 : Le nom d'utilisateur est déjà pris")
+    else:
+        File = open(str(nom_inscription) + ".txt", "w")
+        File.write(str(nom_inscription) + ":" + str(pass_inscription))
+        File.close()
+        print("Message 2 : Votre comte a été crée avec succès !")
+
+
+def Login_code():
+    nom_login = login_entry.get()
+    pass_login = loginpass_entry.get()
+    File_login_name = os.listdir()
+    if str(nom_login) + ".txt" in File_login_name:
+        File1 = open(str(nom_login) + ".txt", "r")
+        liste_info_login = File1.read().split(":")
+        File1.close()
+        if pass_login == liste_info_login[1]:
+            print("Message 1 : Bienvenu, votre nom et votre mot de passe sont juste : )")
+            window_budget_open()
+        else:
+            print("Erreur 2 : le mot de passe est faux")
+    else:
+        print("Erreur 1 l'indentifient n'existe pas")
+
+
+# creation login
+def login_window_open():
+    login_window = Tk()
+    login_window.title("Login")
+    login_window.geometry("470x400")
+    login_window.config(bg='#BDB8B4')
+    login_frame = Frame(login_window, bg='#BDB8B4')
+
+    # login username
+    nom = Label(login_frame, text="Username", font=("Arial", 20), width=15, height=1, bg='#BDB8B4', fg="black")
+    nom.grid(row=0, column=0)
+    global login_entry
+    login_entry = Entry(login_frame, font=("Arial", 18), bg="white", fg="black", width=25)
+    login_entry.grid(row=0, column=1)
+
+    # espace
+    space = Label(login_frame, text="", bg='#BDB8B4', height=1)
+    space.grid(row=1, column=0)
+    # login password
+    password = Label(login_frame, text="Password", font=("Arial", 20), width=15, height=1, bg='#BDB8B4', fg="black")
+    password.grid(row=2, column=0)
+    global loginpass_entry
+    loginpass_entry = Entry(login_frame, font=("Arial", 18), bg="white", fg="black", width=25)
+    loginpass_entry.grid(row=2, column=1)
+    # Space
+    space = Label(login_frame, text="", bg='#BDB8B4', height=1)
+    space.grid(row=4, column=0)
+    # Bouton Login
+    login_button = Button(login_frame, text="Login", font=("Arial", 18), bg="white", fg="black", command=Login_code, )
+    login_button.grid(row=4, column=1)
+    login_frame.pack(expand=YES)
+
+    login_frame.pack(expand=YES)
+    login_window.mainloop()
+
+
+# creation inscription
+def inscription_window_open():
+    inscription_window = Tk()
+    inscription_window.title("Inscription")
+    inscription_window.geometry("470x400")
+    inscription_window.config(bg='#BDB8B4')
+    inscription_frame = Frame(inscription_window, bg='#BDB8B4')
+    password = Label(inscription_frame, text="Username", font=("Arial", 20), width=15, height=1, bg='#BDB8B4',
+                     fg="black")
+    password.grid(row=0, column=0)
+    global inscription_entry
+    inscription_entry = Entry(inscription_frame, font=("Arial", 18), bg="white", fg="black", width=25)
+    inscription_entry.grid(row=0, column=1)
+
+    inscription_frame.pack(expand=YES)
+
+    # Space
+    space = Label(inscription_frame, text="", bg='#BDB8B4', height=1)
+    space.grid(row=1, column=0)
+
+    Pass = Label(inscription_frame, text="Password", font=("Arial", 20), width=15, height=1, bg='#BDB8B4', fg="black")
+    Pass.grid(row=2, column=0)
+    global PassInscription_entry
+    PassInscription_entry = Entry(inscription_frame, font=("Arial", 18), bg="white", fg="black", width=25)
+    PassInscription_entry.grid(row=2, column=1)
+
+    # Space
+    space = Label(inscription_frame, text="", bg='#BDB8B4', height=1)
+    space.grid(row=4, column=0)
+
+    # Bouton Login
+    inscription_button = Button(inscription_frame, text="Inscription", font=("Arial", 18), bg="white", fg="black",
+                                command=inscription_code)
+    inscription_button.grid(row=4, column=1)
+    inscription_frame.pack(expand=YES)
+    inscription_window.mainloop()
+
+
+# menu fenetre
+Menu_window = Tk()
+Menu_window.title("Menu")
+Menu_window.config(bg='#BDB8B4')
+Menu_window.geometry("600x600")
+Menu_frame = Frame(Menu_window, bg='#BDB8B4', width=310, height=305)
+
+# creaton boutton login
+login_button = Button(Menu_frame, text="Login", font=("Hevica", 15), bg='#BDB8B4', command=login_window_open)
+login_button.grid(row=0, column=0)
+
+# creaton boutton Inscription
+login_inscription = Button(Menu_frame, text="Inscription", font=("Hevica", 15), bg='#BDB8B4',
+                           command=inscription_window_open)
+login_inscription.grid(row=0, column=1)
+
+Menu_frame.pack(expand=YES)
+
+Menu_window.mainloop()
