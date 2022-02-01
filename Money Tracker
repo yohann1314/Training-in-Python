@@ -1,0 +1,86 @@
+from cgitb import text
+from textwrap import fill
+from tkinter import *
+
+
+
+window_budget = Tk()
+window_budget.title("Money Tracker")
+window_budget.config(bg='#BDB8B4')
+window_budget.geometry("400x600")
+
+label = Label(window_budget, text="Money Tracker", bg='#54504E', font=("Hevica", 30))
+label.pack(fill=X, expand=True)
+
+frame = Frame(window_budget, bg='#BDB8B4')
+
+left_frame = Frame(frame, bg='#BDB8B4')
+
+label_title1 = Label(window_budget, text="Votre solde est de :", font=("Hevica", 20), bg='#BDB8B4')
+label_title1.pack(side=TOP, pady=20)
+    
+with open('money.txt', 'r') as f:
+    money_lbl = Label(text=f.readline(), bg='#BDB8B4', font=("Hevica", 25))
+    money_lbl.pack(fill=X, expand=True)
+
+#affichage budget 
+def add_value():
+    global enter_money
+    global money_lbl
+    # This checks if what the user entered was a number
+    try:
+        int(enter_money.get())
+    except ValueError as e:
+        raise e
+    finally:
+        pass
+    # Gets the number that was stored previously
+    with open('money.txt', 'r') as f:
+        amt = f.readline()
+    # This should erase the contents of the 'money.txt' file
+    with open('money.txt', 'w'):
+        pass
+    # Writing the new value to the file
+    with open('money.txt', 'w+') as f:
+        new_money = int(amt) + int(enter_money.get())
+        f.write(str(new_money))
+        money_lbl.configure(text=str(new_money))
+
+def subtract_value():
+    global enter_money
+    global money_lbl
+    # This checks if what the user entered was a number
+    try:
+        int(enter_money.get())
+    except ValueError as e:
+        raise e
+    finally:
+        pass
+    # Gets the number that was stored previously
+    with open('money.txt', 'r') as f:
+        amt = f.readline()
+    # This should erase the contents of the 'money.txt' file
+    with open('money.txt', 'w'):
+        pass
+    # Writing the new value to the file
+    with open('money.txt', 'w+') as f:
+        new_amt = int(amt) - int(enter_money.get())
+        f.write(str(new_amt))
+        money_lbl.configure(text=str(new_amt))
+
+text_amt = StringVar()
+
+global enter_money
+enter_money = Entry(left_frame, text="Depense", font=("Hevica", 15), bg='#BDB8B4', fg='black',textvariable=text_amt)
+enter_money.pack()
+
+button_depense = Button(left_frame, text="DEPENSE", font=("Hevica", 15), bg='#B31E1E', fg='white', command=subtract_value)
+button_depense.pack(pady=20)
+
+button_revenu = Button(left_frame, text="REVENU", font=("Hevica", 15), bg='#2AA81F', fg='white', command=add_value)
+button_revenu.pack(pady=20)
+
+left_frame.grid(row=0, column=0, sticky=W)
+
+frame.pack(expand=YES)
+window_budget.mainloop()
